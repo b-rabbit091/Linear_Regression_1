@@ -1,0 +1,41 @@
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+
+#location of csv file
+url='H:/slr.csv'
+
+#giving names to columns
+data= pd.read_csv(url , header=None,names=['x','y'])
+
+
+#Checking correlation value between dataset[x] and dataset[y]. The values ranges from +1 to -1.
+correlation_value, p_value= stats.pearsonr(data.x,data.y)
+print("correlation values is",correlation_value)
+#As correlatin_value is very near to +1. Hence we can use Linear Regression Model.
+
+
+#importing LinearRegression 
+reg= linear_model.LinearRegression()
+
+#Here we are provinding dataset[x] and dataset[y] in 2-D. fit() is used to train the machine from given datasets.Machine will
+#try to find the pattern in a linear form
+
+reg.fit(data[['x']], data[['y']])
+
+
+#for plotting graph(without line of regression)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.scatter(data.x, data.y,color='brown')
+
+
+#plotting graph with line of regression
+plt.plot(data[['x']], reg.predict(data[['x']]))
+
+#now we can predict the value of y for given x as:
+
+print("predicted value for x= 44",reg.predict([[44]]))
+
+
